@@ -1,14 +1,7 @@
 'use client';
-import { Roboto } from 'next/font/google';
 import StyledComponentsRegistry from './_lib/registry';
 
 import { styled } from 'styled-components';
-
-const roboto = Roboto({
-    weight: '400',
-    subsets: ['latin'],
-    display: 'swap',
-});
 
 const Body = styled.body`
     box-sizing: border-box;
@@ -24,6 +17,14 @@ export default function RootLayout({
 }) {
     return (
         <html lang='en'>
+            <head>
+                <title>Ecommerce</title>
+                <link
+                    rel='icon'
+                    href='%PUBLIC_URL%/favicon.ico'
+                    sizes='any'
+                />
+            </head>
             <StyledComponentsRegistry>
                 <Body>{children}</Body>
             </StyledComponentsRegistry>
