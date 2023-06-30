@@ -1,5 +1,6 @@
 import { css, styled, StyleSheetManager } from 'styled-components';
 import isPropValid from '@emotion/is-prop-valid';
+import { primary } from '../_lib/colors';
 
 export const ButtonStyle = css<PrimaryBtnProps>`
     border: 0;
@@ -9,15 +10,44 @@ export const ButtonStyle = css<PrimaryBtnProps>`
     display: inline-flex;
     align-items: center;
     text-decoration: none;
+    font-family: var(--poppins);
     svg {
         height: 16px;
         margin-right: 5px;
     }
     ${(props) =>
-        props.primary &&
+        props.white &&
+        !props.outline &&
         css`
-            background-color: #5542f6;
+            background-color: #fff;
+            color: #000;
+        `}
+
+    ${(props) =>
+        props.white &&
+        props.outline &&
+        css`
+            background-color: transparent;
             color: #fff;
+            border: 1px solid #fff;
+        `}
+
+    ${(props) =>
+        props.primary &&
+        !props.outline &&
+        css`
+            background-color: ${primary};
+            color: #fff;
+            border: 1px solid ${primary};
+        `};
+
+    ${(props) =>
+        props.primary &&
+        props.outline &&
+        css`
+            background-color: transparent;
+            color: ${primary};
+            border: 1px solid ${primary};
         `};
     ${(props) =>
         props.size === 'l' &&
@@ -27,21 +57,6 @@ export const ButtonStyle = css<PrimaryBtnProps>`
             svg {
                 height: 20px;
             }
-        `}
-    ${(props) =>
-        props.white &&
-        !props.outline &&
-        css`
-            background-color: #fff;
-            color: #000;
-        `}
-        ${(props) =>
-        props.white &&
-        props.outline &&
-        css`
-            background-color: transparent;
-            color: #fff;
-            border: 1px solid #fff;
         `}
 `;
 

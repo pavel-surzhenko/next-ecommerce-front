@@ -56,7 +56,7 @@ const Featured = ({
                             >
                                 Read more
                             </ButtonLink>
-                            <Button primary='true'>
+                            <Button white='true'>
                                 <CartIcon />
                                 Add to cart
                             </Button>
