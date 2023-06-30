@@ -6,6 +6,8 @@ import Button from './Button';
 import { IProduct } from '../page';
 import ButtonLink from './ButtonLink';
 import CartIcon from './icons/CartIcon';
+import { useContext } from 'react';
+import { CartContext } from './CartContext';
 
 const Bg = styled.div`
     background-color: #222;
@@ -36,11 +38,14 @@ const ButtonWrapper = styled.div`
     margin-top: 25px;
 `;
 
-const Featured = ({
-    featuredProduct,
-}: {
-    featuredProduct: IProduct | null;
-}) => {
+const Featured = ({ featuredProduct }: { featuredProduct: IProduct }) => {
+    const { cartProducts, setCartProducts } = useContext(CartContext);
+
+    const addFeatureToCart = () => {
+        setCartProducts([...cartProducts, featuredProduct._id]);
+        console.log(1);
+    };
+
     return (
         <Bg>
             <Container>
@@ -56,7 +61,10 @@ const Featured = ({
                             >
                                 Read more
                             </ButtonLink>
-                            <Button white='true'>
+                            <Button
+                                onClick={addFeatureToCart}
+                                white='true'
+                            >
                                 <CartIcon />
                                 Add to cart
                             </Button>

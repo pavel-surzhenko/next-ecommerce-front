@@ -13,6 +13,7 @@ const ProductsGrid = styled.div`
 const Title = styled.h2`
     font-size: 1.8rem;
     margin: 30px 0 20px;
+    font-weight: 500;
 `;
 
 const NewProducts = ({ products }: { products: IProduct[] }) => {

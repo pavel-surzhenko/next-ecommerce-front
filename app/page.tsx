@@ -1,5 +1,6 @@
 import mongooseConnect from './_lib/mongoose';
 import { Product } from './_models/Product';
+import CartContextProvider from './components/CartContext';
 import Featured from './components/Featured';
 import Header from './components/Header';
 import NewProducts from './components/NewProducts';
@@ -25,11 +26,11 @@ const HomePage = async () => {
     );
 
     return (
-        <div>
+        <CartContextProvider>
             <Header />
             <Featured featuredProduct={featuredProduct} />
             <NewProducts products={newProducts} />
-        </div>
+        </CartContextProvider>
     );
 };
 export default HomePage;

@@ -70,6 +70,7 @@ const Button: React.FC<PrimaryBtnProps> = (props) => {
             <StyledButton
                 primary={props.primary}
                 size={props.size}
+                onClick={props.onClick}
             >
                 {props.children}
             </StyledButton>
@@ -85,4 +86,5 @@ export interface PrimaryBtnProps {
     href?: string;
     white?: string;
     outline?: string;
+    onClick?: () => void;
 }
