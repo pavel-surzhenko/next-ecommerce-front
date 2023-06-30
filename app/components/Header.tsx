@@ -31,8 +31,7 @@ const StyledNav = styled.nav`
 `;
 
 const Header = () => {
-    const { cartProducts } = useContext(CartContext);
-    console.log(cartProducts);
+    const { cartProducts } = useContext(CartContext)
 
     return (
         <StyledHeader>

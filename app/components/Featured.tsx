@@ -39,11 +39,10 @@ const ButtonWrapper = styled.div`
 `;
 
 const Featured = ({ featuredProduct }: { featuredProduct: IProduct }) => {
-    const { cartProducts, setCartProducts } = useContext(CartContext);
+    const { addProduct } = useContext(CartContext);
 
     const addFeatureToCart = () => {
-        setCartProducts([...cartProducts, featuredProduct._id]);
-        console.log(1);
+        addProduct(featuredProduct._id);
     };
 
     return (

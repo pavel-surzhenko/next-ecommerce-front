@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Button from './Button';
 import CartIcon from './icons/CartIcon';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { CartContext } from './CartContext';
 
 const ProductWrapper = styled.div``;
 
@@ -49,6 +51,7 @@ const ProductInfoBox = styled.div`
 
 const ProductBox = ({ _id, title, description, price, images }: IProduct) => {
     const url = '/product/' + _id;
+    const { addProduct } = useContext(CartContext);
 
     return (
         <ProductWrapper>
@@ -66,7 +69,10 @@ const ProductBox = ({ _id, title, description, price, images }: IProduct) => {
                 <Title href={url}>{title}</Title>
                 <PriceRow>
                     <Price>${price}</Price>
-                    <Button primary='true'>
+                    <Button
+                        onClick={() => addProduct(_id)}
+                        primary='true'
+                    >
                         <CartIcon />
                     </Button>
                 </PriceRow>
