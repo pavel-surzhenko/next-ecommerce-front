@@ -2,24 +2,33 @@ import mongooseConnect from './_lib/mongoose';
 import { Product } from './_models/Product';
 import Featured from './components/Featured';
 import Header from './components/Header';
+import NewProducts from './components/NewProducts';
 
 const getProduct = async () => {
     const featuredProductId = '64919f2e990e0455b6a2b901';
     await mongooseConnect();
-    const product: IProduct | null = await Product.findById<IProduct>(
+    const featuredProduct: IProduct | null = await Product.findById<IProduct>(
         featuredProductId
     );
 
-    return product;
+    const newProducts = await Product.find({}, null, {
+        sort: { _id: -1 },
+        limit: 10,
+    });
+
+    return { featuredProduct, newProducts };
 };
 
 const HomePage = async () => {
-    const product = JSON.parse(JSON.stringify(await getProduct()));
+    const { featuredProduct, newProducts } = JSON.parse(
+        JSON.stringify(await getProduct())
+    );
 
     return (
         <div>
             <Header />
-            <Featured product={product} />
+            <Featured featuredProduct={featuredProduct} />
+            <NewProducts products={newProducts} />
         </div>
     );
 };

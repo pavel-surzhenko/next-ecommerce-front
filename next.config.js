@@ -11,6 +11,7 @@ const nextConfig = {
         domains: [
             'pavlo-next-ecommerce.s3.eu-north-1.amazonaws.com',
             'localhost',
+            'pavlo-next-ecommerce.s3.amazonaws.com',
         ],
         remotePatterns: [
             {
