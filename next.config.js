@@ -2,7 +2,10 @@
 const nextConfig = {
     reactStrictMode: true,
     compiler: {
-        styledComponents: true,
+        styledComponents: {
+            ssr: false,
+            displayName: false,
+        },
     },
     images: {
         domains: [

@@ -3,6 +3,8 @@ import { styled } from 'styled-components';
 import Container from './Container';
 import Image from 'next/image';
 import Button from './Button';
+import { IProduct } from '../page';
+import ButtonLink from './ButtonLink';
 
 const Bg = styled.div`
     background-color: #222;
@@ -20,7 +22,7 @@ const Desc = styled.p`
 `;
 const ColumnsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: 1.2fr 0.8fr;
     gap: 40px;
     align-items: center;
     img {
@@ -33,22 +35,22 @@ const ButtonWrapper = styled.div`
     margin-top: 25px;
 `;
 
-const Featured = () => {
+const Featured = ({ product }: { product: IProduct | null }) => {
     return (
         <Bg>
             <Container>
                 <ColumnsWrapper>
                     <div>
-                        <Title>Pro anywhere</Title>
-                        <Desc>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing
-                            elit. Numquam, ad error! Suscipit, tempora dolor
-                            beatae deleniti sed reiciendis quod nam, delectus
-                            accusamus consectetur magnam nesciunt cupiditate
-                            exercitationem et nulla ex.
-                        </Desc>
+                        <Title>{product?.title}</Title>
+                        <Desc>{product?.description}</Desc>
                         <ButtonWrapper>
-                            <Button>Read more</Button>
+                            <ButtonLink
+                                href={'/product/' + product?._id}
+                                white='true'
+                                outline='true'
+                            >
+                                Read more
+                            </ButtonLink>
                             <Button primary='true'>
                                 <svg
                                     xmlns='http://www.w3.org/2000/svg'

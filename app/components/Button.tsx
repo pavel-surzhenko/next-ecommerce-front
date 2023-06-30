@@ -1,13 +1,14 @@
 import { css, styled, StyleSheetManager } from 'styled-components';
 import isPropValid from '@emotion/is-prop-valid';
 
-const StyledButton = styled.button<PrimaryBtnProps>`
+export const ButtonStyle = css<PrimaryBtnProps>`
     border: 0;
     padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
+    text-decoration: none;
     svg {
         height: 16px;
         margin-right: 5px;
@@ -27,24 +28,46 @@ const StyledButton = styled.button<PrimaryBtnProps>`
                 height: 20px;
             }
         `}
+    ${(props) =>
+        props.white &&
+        !props.outline &&
+        css`
+            background-color: #fff;
+            color: #000;
+        `}
+        ${(props) =>
+        props.white &&
+        props.outline &&
+        css`
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+        `}
 `;
 
-const Button = ({ children, size, primary }: PrimaryBtnProps) => {
+const StyledButton = styled.button<PrimaryBtnProps>`
+    ${ButtonStyle}
+`;
+
+const Button: React.FC<PrimaryBtnProps> = (props) => {
     return (
         <StyleSheetManager shouldForwardProp={isPropValid}>
             <StyledButton
-                primary={primary}
-                size={size}
+                primary={props.primary}
+                size={props.size}
             >
-                {children}
+                {props.children}
             </StyledButton>
         </StyleSheetManager>
     );
 };
 export default Button;
 
-interface PrimaryBtnProps {
-    children: React.ReactNode;
+export interface PrimaryBtnProps {
+    children?: React.ReactNode;
     size?: string;
     primary?: string;
+    href?: string;
+    white?: string;
+    outline?: string;
 }

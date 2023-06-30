@@ -3,17 +3,33 @@ import { Product } from './_models/Product';
 import Featured from './components/Featured';
 import Header from './components/Header';
 
-const HomePage = async () => {
+const getProduct = async () => {
     const featuredProductId = '64919f2e990e0455b6a2b901';
     await mongooseConnect();
-    const product = await Product.findById(featuredProductId);
-    console.log('🚀 ~ file: page.tsx:10 ~ HomePage ~ product:', product);
+    const product: IProduct | null = await Product.findById<IProduct>(
+        featuredProductId
+    );
+
+    return product;
+};
+
+const HomePage = async () => {
+    const product = JSON.parse(JSON.stringify(await getProduct()));
 
     return (
         <div>
             <Header />
-            <Featured />
+            <Featured product={product} />
         </div>
     );
 };
 export default HomePage;
+
+export interface IProduct {
+    category: string;
+    images: string[];
+    price: number;
+    description: string;
+    title: string;
+    _id: string;
+}
