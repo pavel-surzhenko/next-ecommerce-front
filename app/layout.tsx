@@ -31,11 +31,6 @@ export default function RootLayout({
         >
             <head>
                 <title>Ecommerce</title>
-                <link
-                    rel='icon'
-                    href='%PUBLIC_URL%/favicon.ico'
-                    sizes='any'
-                />
             </head>
             <StyledComponentsRegistry>
                 <Body>
