@@ -26,11 +26,11 @@ const HomePage = async () => {
     );
 
     return (
-        <CartContextProvider>
+        <>
             <Header />
             <Featured featuredProduct={featuredProduct} />
             <NewProducts products={newProducts} />
-        </CartContextProvider>
+        </>
     );
 };
 export default HomePage;

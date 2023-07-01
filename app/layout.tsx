@@ -1,5 +1,6 @@
 'use client';
 import StyledComponentsRegistry from './_lib/registry';
+import CartContextProvider from './components/CartContext';
 
 import { styled } from 'styled-components';
 import { Poppins } from 'next/font/google';
@@ -37,7 +38,9 @@ export default function RootLayout({
                 />
             </head>
             <StyledComponentsRegistry>
-                <Body>{children}</Body>
+                <Body>
+                    <CartContextProvider>{children}</CartContextProvider>
+                </Body>
             </StyledComponentsRegistry>
         </html>
     );
