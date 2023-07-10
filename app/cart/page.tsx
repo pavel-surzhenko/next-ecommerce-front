@@ -72,6 +72,12 @@ const CartPage = () => {
         removeProduct(id);
     };
 
+    let total = 0;
+    for (const productId of cartProducts) {
+        const price = products.find((p) => p._id === productId)?.price || 0;
+        total += price;
+    }
+
     return (
         <>
             <Header />
@@ -140,6 +146,11 @@ const CartPage = () => {
                                             </td>
                                         </tr>
                                     ))}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>${total}</td>
+                                    </tr>
                                 </tbody>
                             </Table>
                         )}
