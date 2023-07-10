@@ -5,8 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request): Promise<NextResponse> {
     await mongooseConnect()
 
-    const body = await req.json()
-
+    const body: { ids: string[] } = await req.json()
 
     const { ids } = body
     return NextResponse.json(await Product.find({ _id: ids }))
