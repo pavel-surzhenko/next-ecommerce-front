@@ -53,7 +53,7 @@ const QuantityLabel = styled.span`
 `;
 
 const CartPage = () => {
-    const { cartProducts, addProduct } = useContext(CartContext);
+    const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
     const [products, setProducts] = useState<IProduct[]>([]);
 
     useEffect(() => {
@@ -66,6 +66,10 @@ const CartPage = () => {
 
     const moreOfThisProduct = (id: string) => {
         addProduct(id);
+    };
+
+    const lessOfThisProduct = (id: string) => {
+        removeProduct(id);
     };
 
     return (
@@ -100,7 +104,15 @@ const CartPage = () => {
                                                 {product.title}
                                             </ProductInfoCell>
                                             <td>
-                                                <Button>-</Button>
+                                                <Button
+                                                    onClick={() =>
+                                                        lessOfThisProduct(
+                                                            product._id
+                                                        )
+                                                    }
+                                                >
+                                                    -
+                                                </Button>
                                                 <QuantityLabel>
                                                     {
                                                         cartProducts.filter(

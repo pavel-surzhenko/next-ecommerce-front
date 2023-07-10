@@ -11,6 +11,7 @@ export const CartContext = createContext<ICartContext>({
     cartProducts: [],
     setCartProducts: () => {},
     addProduct: () => {},
+    removeProduct: () => {},
 });
 
 const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -34,9 +35,19 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
         setCartProducts((prev) => [...prev, productId]);
     };
 
+    const removeProduct = (productId: string) => {
+        setCartProducts((prev) => {
+            const pos = prev.indexOf(productId);
+            if (pos !== -1) {
+                return prev.filter((value, index) => index !== pos);
+            }
+            return prev;
+        });
+    };
+
     return (
         <CartContext.Provider
-            value={{ cartProducts, setCartProducts, addProduct }}
+            value={{ cartProducts, setCartProducts, addProduct, removeProduct }}
         >
             {children}
         </CartContext.Provider>
@@ -49,4 +60,5 @@ interface ICartContext {
     cartProducts: string[];
     setCartProducts: Dispatch<SetStateAction<string[]>>;
     addProduct: (productId: string) => void;
+    removeProduct: (productId: string) => void;
 }
