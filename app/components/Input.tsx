@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { InputHTMLAttributes } from 'react';
 
 const StyledInput = styled.input`
     width: 100%;
@@ -9,7 +10,7 @@ const StyledInput = styled.input`
     box-sizing: border-box;
 `;
 
-const Input = (props) => {
+const Input: React.FC<InputHTMLAttributes<HTMLInputElement>> = (props) => {
     return <StyledInput {...props} />;
 };
 

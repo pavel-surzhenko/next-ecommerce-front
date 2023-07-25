@@ -95,6 +95,7 @@ const Button: React.FC<PrimaryBtnProps> = (props) => {
                 href={props.href}
                 white={props.white}
                 outline={props.outline}
+                type={props.type}
             >
                 {props.children}
             </StyledButton>
@@ -113,4 +114,5 @@ export interface PrimaryBtnProps {
     onClick?: () => void;
     block?: string;
     black?: string;
+    type?: string;
 }

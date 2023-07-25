@@ -100,6 +100,22 @@ const CartPage = () => {
         total += price;
     }
 
+    const goToPayment = async () => {
+        const response = await axios('/api/checkout', {
+            name: name,
+            email: email,
+            city: city,
+            postalCode: postalCode,
+            streetAddress: streetAddress,
+            country: country,
+            cartProducts: cartProducts,
+        });
+
+        if (response.data.url) {
+            window.location = response.data.url;
+        }
+    };
+
     return (
         <>
             <Header />
@@ -183,74 +199,74 @@ const CartPage = () => {
                     {!!cartProducts?.length && (
                         <Box>
                             <h2>Order Information</h2>
-                            <form
-                                method='post'
-                                action='/api/checkout'
+                            <Input
+                                type='text'
+                                placeholder='Name'
+                                value={name}
+                                name='name'
+                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                                    setName(ev.target.value)
+                                }
+                            />
+                            <Input
+                                type='text'
+                                placeholder='Email'
+                                value={email}
+                                name='email'
+                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                                    setEmail(ev.target.value)
+                                }
+                            />
+                            <CityHolder>
+                                <Input
+                                    type='text'
+                                    placeholder='City'
+                                    value={city}
+                                    name='city'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setCity(ev.target.value)}
+                                />
+                                <Input
+                                    type='text'
+                                    placeholder='Postal code'
+                                    value={postalCode}
+                                    name='postalCode'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setPostalCode(ev.target.value)}
+                                />
+                            </CityHolder>
+                            <Input
+                                type='text'
+                                placeholder='Street address'
+                                value={streetAddress}
+                                name='streetAddress'
+                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                                    setStreetAddress(ev.target.value)
+                                }
+                            />
+                            <Input
+                                type='text'
+                                placeholder='Country'
+                                value={country}
+                                name='country'
+                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                                    setCountry(ev.target.value)
+                                }
+                            />
+                            <input
+                                type='hidden'
+                                value={cartProducts.join(',')}
+                                name='products'
+                            />
+                            <Button
+                                block='true'
+                                black='true'
+                                onClick={goToPayment}
                             >
-                                <Input
-                                    type='text'
-                                    placeholder='Name'
-                                    value={name}
-                                    name='name'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setName(ev.target.value)}
-                                />
-                                <Input
-                                    type='text'
-                                    placeholder='Email'
-                                    value={email}
-                                    name='email'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setEmail(ev.target.value)}
-                                />
-                                <CityHolder>
-                                    <Input
-                                        type='text'
-                                        placeholder='City'
-                                        value={city}
-                                        name='city'
-                                        onChange={(
-                                            ev: ChangeEvent<HTMLInputElement>
-                                        ) => setCity(ev.target.value)}
-                                    />
-                                    <Input
-                                        type='text'
-                                        placeholder='Postal code'
-                                        value={postalCode}
-                                        name='postalCode'
-                                        onChange={(
-                                            ev: ChangeEvent<HTMLInputElement>
-                                        ) => setPostalCode(ev.target.value)}
-                                    />
-                                </CityHolder>
-                                <Input
-                                    type='text'
-                                    placeholder='Street address'
-                                    value={streetAddress}
-                                    name='streetAddress'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setStreetAddress(ev.target.value)}
-                                />
-                                <Input
-                                    type='text'
-                                    placeholder='Country'
-                                    value={country}
-                                    name='country'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setCountry(ev.target.value)}
-                                />
-                                <Button
-                                    block='true'
-                                    black='true'
-                                    type='submit'
-                                >
-                                    Continue to payment
-                                </Button>
-                            </form>
+                                Continue to payment
+                            </Button>
                         </Box>
                     )}
                 </ColumnsWrapper>
