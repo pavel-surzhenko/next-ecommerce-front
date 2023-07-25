@@ -3,12 +3,13 @@ import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Container from '../components/Container';
 import Button from '../components/Button';
-import { useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { CartContext } from '../components/CartContext';
 import axios from 'axios';
 import { IProduct } from '../page';
 import Table from '../components/Table';
 import Image from 'next/image';
+import Input from '../components/Input';
 
 const ColumnsWrapper = styled.div`
     display: grid;
@@ -50,17 +51,38 @@ const ProductImageBox = styled.div`
 
 const QuantityLabel = styled.span`
     padding: 0 3px;
+    /* display: inline-block;
+    width: 20px;
+    text-align: center; */
 `;
 
+const PriceLabel = styled.span`
+    /* padding: 0 3px;
+    min-width: 80px;
+    display: inline-block; */
+`;
+
+const CityHolder = styled.div`
+    display: flex;
+    gap: 5px;
+`;
 const CartPage = () => {
     const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
     const [products, setProducts] = useState<IProduct[]>([]);
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [city, setCity] = useState<string>('');
+    const [postalCode, setPostalCode] = useState<string>('');
+    const [streetAddress, setStreetAddress] = useState<string>('');
+    const [country, setCountry] = useState<string>('');
 
     useEffect(() => {
         if (cartProducts.length > 0) {
             axios.post('/api/cart', { ids: cartProducts }).then((response) => {
                 setProducts(response.data);
             });
+        } else {
+            setProducts([]);
         }
     }, [cartProducts]);
 
@@ -139,10 +161,13 @@ const CartPage = () => {
                                                 </Button>
                                             </td>
                                             <td>
-                                                $
-                                                {cartProducts.filter(
-                                                    (id) => id === product._id
-                                                ).length * product.price}
+                                                <PriceLabel>
+                                                    $
+                                                    {cartProducts.filter(
+                                                        (id) =>
+                                                            id === product._id
+                                                    ).length * product.price}
+                                                </PriceLabel>
                                             </td>
                                         </tr>
                                     ))}
@@ -158,20 +183,74 @@ const CartPage = () => {
                     {!!cartProducts?.length && (
                         <Box>
                             <h2>Order Information</h2>
-                            <input
-                                type='text'
-                                placeholder='Address'
-                            />
-                            <input
-                                type='text'
-                                placeholder='Address 2'
-                            />
-                            <Button
-                                block='true'
-                                black='true'
+                            <form
+                                method='post'
+                                action='/api/checkout'
                             >
-                                Continue to payment
-                            </Button>
+                                <Input
+                                    type='text'
+                                    placeholder='Name'
+                                    value={name}
+                                    name='name'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setName(ev.target.value)}
+                                />
+                                <Input
+                                    type='text'
+                                    placeholder='Email'
+                                    value={email}
+                                    name='email'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setEmail(ev.target.value)}
+                                />
+                                <CityHolder>
+                                    <Input
+                                        type='text'
+                                        placeholder='City'
+                                        value={city}
+                                        name='city'
+                                        onChange={(
+                                            ev: ChangeEvent<HTMLInputElement>
+                                        ) => setCity(ev.target.value)}
+                                    />
+                                    <Input
+                                        type='text'
+                                        placeholder='Postal code'
+                                        value={postalCode}
+                                        name='postalCode'
+                                        onChange={(
+                                            ev: ChangeEvent<HTMLInputElement>
+                                        ) => setPostalCode(ev.target.value)}
+                                    />
+                                </CityHolder>
+                                <Input
+                                    type='text'
+                                    placeholder='Street address'
+                                    value={streetAddress}
+                                    name='streetAddress'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setStreetAddress(ev.target.value)}
+                                />
+                                <Input
+                                    type='text'
+                                    placeholder='Country'
+                                    value={country}
+                                    name='country'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setCountry(ev.target.value)}
+                                />
+                                <Button
+                                    block='true'
+                                    black='true'
+                                    type='submit'
+                                >
+                                    Continue to payment
+                                </Button>
+                            </form>
                         </Box>
                     )}
                 </ColumnsWrapper>
