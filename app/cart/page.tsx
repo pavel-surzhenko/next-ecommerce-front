@@ -10,6 +10,13 @@ import { IProduct } from '../page';
 import Table from '../components/Table';
 import Image from 'next/image';
 import Input from '../components/Input';
+import { Spinner } from '../components/Spinner';
+
+const SpinnerWrapper = styled.div`
+    display: grid;
+    place-items: center;
+    height: 80vh;
+`;
 
 const ColumnsWrapper = styled.div`
     display: grid;
@@ -67,7 +74,8 @@ const CityHolder = styled.div`
     gap: 5px;
 `;
 const CartPage = () => {
-    const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
+    const { cartProducts, addProduct, removeProduct, clearCart } =
+        useContext(CartContext);
     const [products, setProducts] = useState<IProduct[]>([]);
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -75,16 +83,33 @@ const CartPage = () => {
     const [postalCode, setPostalCode] = useState<string>('');
     const [streetAddress, setStreetAddress] = useState<string>('');
     const [country, setCountry] = useState<string>('');
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [isFetch, setIsFetch] = useState<boolean>(false);
 
     useEffect(() => {
         if (cartProducts.length > 0) {
             axios.post('/api/cart', { ids: cartProducts }).then((response) => {
                 setProducts(response.data);
+                setIsFetch(true);
             });
         } else {
             setProducts([]);
         }
     }, [cartProducts]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        if (
+            typeof window !== 'undefined' &&
+            window.location.href.includes('success')
+        ) {
+            setIsSuccess(true);
+            clearCart();
+        }
+    }, []);
 
     const moreOfThisProduct = (id: string) => {
         addProduct(id);
@@ -116,19 +141,7 @@ const CartPage = () => {
         }
     };
 
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-    if (!isClient) {
-        return null;
-    }
-
-    if (
-        typeof window !== 'undefined' &&
-        window.location.href.includes('success')
-    ) {
+    if (isSuccess) {
         return (
             <>
                 <Header />
@@ -149,158 +162,172 @@ const CartPage = () => {
     return (
         <>
             <Header />
-            <Container>
-                <ColumnsWrapper>
-                    <Box>
-                        <h2>Cart</h2>
-                        {!cartProducts?.length && <div>Your cart is empty</div>}
-                        {products?.length > 0 && (
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {products.map((product) => (
-                                        <tr key={product._id}>
-                                            <ProductInfoCell>
-                                                <ProductImageBox>
-                                                    <Image
-                                                        src={product.images[0]}
-                                                        alt={product.title}
-                                                        width={150}
-                                                        height={150}
-                                                    />
-                                                </ProductImageBox>
-                                                {product.title}
-                                            </ProductInfoCell>
-                                            <td>
-                                                <Button
-                                                    onClick={() =>
-                                                        lessOfThisProduct(
-                                                            product._id
-                                                        )
-                                                    }
-                                                >
-                                                    -
-                                                </Button>
-                                                <QuantityLabel>
-                                                    {
-                                                        cartProducts.filter(
+            {!isFetch && (
+                <SpinnerWrapper>
+                    <Spinner />
+                </SpinnerWrapper>
+            )}
+            {isFetch && (
+                <Container>
+                    <ColumnsWrapper>
+                        <Box>
+                            <h2>Cart</h2>
+                            {!cartProducts?.length && (
+                                <div>Your cart is empty</div>
+                            )}
+                            {products?.length > 0 && (
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {products.map((product) => (
+                                            <tr key={product._id}>
+                                                <ProductInfoCell>
+                                                    <ProductImageBox>
+                                                        <Image
+                                                            src={
+                                                                product
+                                                                    .images[0]
+                                                            }
+                                                            alt={product.title}
+                                                            width={150}
+                                                            height={150}
+                                                        />
+                                                    </ProductImageBox>
+                                                    {product.title}
+                                                </ProductInfoCell>
+                                                <td>
+                                                    <Button
+                                                        onClick={() =>
+                                                            lessOfThisProduct(
+                                                                product._id
+                                                            )
+                                                        }
+                                                    >
+                                                        -
+                                                    </Button>
+                                                    <QuantityLabel>
+                                                        {
+                                                            cartProducts.filter(
+                                                                (id) =>
+                                                                    id ===
+                                                                    product._id
+                                                            ).length
+                                                        }
+                                                    </QuantityLabel>
+                                                    <Button
+                                                        onClick={() =>
+                                                            moreOfThisProduct(
+                                                                product._id
+                                                            )
+                                                        }
+                                                    >
+                                                        +
+                                                    </Button>
+                                                </td>
+                                                <td>
+                                                    <PriceLabel>
+                                                        $
+                                                        {cartProducts.filter(
                                                             (id) =>
                                                                 id ===
                                                                 product._id
-                                                        ).length
-                                                    }
-                                                </QuantityLabel>
-                                                <Button
-                                                    onClick={() =>
-                                                        moreOfThisProduct(
-                                                            product._id
-                                                        )
-                                                    }
-                                                >
-                                                    +
-                                                </Button>
-                                            </td>
-                                            <td>
-                                                <PriceLabel>
-                                                    $
-                                                    {cartProducts.filter(
-                                                        (id) =>
-                                                            id === product._id
-                                                    ).length * product.price}
-                                                </PriceLabel>
-                                            </td>
+                                                        ).length *
+                                                            product.price}
+                                                    </PriceLabel>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>${total}</td>
                                         </tr>
-                                    ))}
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>${total}</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        )}
-                    </Box>
-                    {!!cartProducts?.length && (
-                        <Box>
-                            <h2>Order Information</h2>
-                            <Input
-                                type='text'
-                                placeholder='Name'
-                                value={name}
-                                name='name'
-                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                                    setName(ev.target.value)
-                                }
-                            />
-                            <Input
-                                type='text'
-                                placeholder='Email'
-                                value={email}
-                                name='email'
-                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                                    setEmail(ev.target.value)
-                                }
-                            />
-                            <CityHolder>
-                                <Input
-                                    type='text'
-                                    placeholder='City'
-                                    value={city}
-                                    name='city'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setCity(ev.target.value)}
-                                />
-                                <Input
-                                    type='text'
-                                    placeholder='Postal code'
-                                    value={postalCode}
-                                    name='postalCode'
-                                    onChange={(
-                                        ev: ChangeEvent<HTMLInputElement>
-                                    ) => setPostalCode(ev.target.value)}
-                                />
-                            </CityHolder>
-                            <Input
-                                type='text'
-                                placeholder='Street address'
-                                value={streetAddress}
-                                name='streetAddress'
-                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                                    setStreetAddress(ev.target.value)
-                                }
-                            />
-                            <Input
-                                type='text'
-                                placeholder='Country'
-                                value={country}
-                                name='country'
-                                onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-                                    setCountry(ev.target.value)
-                                }
-                            />
-                            <input
-                                type='hidden'
-                                value={cartProducts.join(',')}
-                                name='products'
-                            />
-                            <Button
-                                block='true'
-                                black='true'
-                                onClick={goToPayment}
-                            >
-                                Continue to payment
-                            </Button>
+                                    </tbody>
+                                </Table>
+                            )}
                         </Box>
-                    )}
-                </ColumnsWrapper>
-            </Container>
+                        {!!cartProducts?.length && (
+                            <Box>
+                                <h2>Order Information</h2>
+                                <Input
+                                    type='text'
+                                    placeholder='Name'
+                                    value={name}
+                                    name='name'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setName(ev.target.value)}
+                                />
+                                <Input
+                                    type='text'
+                                    placeholder='Email'
+                                    value={email}
+                                    name='email'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setEmail(ev.target.value)}
+                                />
+                                <CityHolder>
+                                    <Input
+                                        type='text'
+                                        placeholder='City'
+                                        value={city}
+                                        name='city'
+                                        onChange={(
+                                            ev: ChangeEvent<HTMLInputElement>
+                                        ) => setCity(ev.target.value)}
+                                    />
+                                    <Input
+                                        type='text'
+                                        placeholder='Postal code'
+                                        value={postalCode}
+                                        name='postalCode'
+                                        onChange={(
+                                            ev: ChangeEvent<HTMLInputElement>
+                                        ) => setPostalCode(ev.target.value)}
+                                    />
+                                </CityHolder>
+                                <Input
+                                    type='text'
+                                    placeholder='Street address'
+                                    value={streetAddress}
+                                    name='streetAddress'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setStreetAddress(ev.target.value)}
+                                />
+                                <Input
+                                    type='text'
+                                    placeholder='Country'
+                                    value={country}
+                                    name='country'
+                                    onChange={(
+                                        ev: ChangeEvent<HTMLInputElement>
+                                    ) => setCountry(ev.target.value)}
+                                />
+                                <input
+                                    type='hidden'
+                                    value={cartProducts.join(',')}
+                                    name='products'
+                                />
+                                <Button
+                                    block='true'
+                                    black='true'
+                                    onClick={goToPayment}
+                                >
+                                    Continue to payment
+                                </Button>
+                            </Box>
+                        )}
+                    </ColumnsWrapper>
+                </Container>
+            )}
         </>
     );
 };
