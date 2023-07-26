@@ -101,20 +101,50 @@ const CartPage = () => {
     }
 
     const goToPayment = async () => {
-        const response = await axios('/api/checkout', {
-            name: name,
-            email: email,
-            city: city,
-            postalCode: postalCode,
-            streetAddress: streetAddress,
-            country: country,
-            cartProducts: cartProducts,
+        const response = await axios.post('/api/checkout', {
+            name,
+            email,
+            city,
+            postalCode,
+            streetAddress,
+            country,
+            cartProducts,
         });
 
         if (response.data.url) {
             window.location = response.data.url;
         }
     };
+
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+    if (!isClient) {
+        return null;
+    }
+
+    if (
+        typeof window !== 'undefined' &&
+        window.location.href.includes('success')
+    ) {
+        return (
+            <>
+                <Header />
+                <Container>
+                    <ColumnsWrapper>
+                        <Box>
+                            <h2>Thanks for your order!</h2>
+                            <p>
+                                We will email you when your order will be sent
+                            </p>
+                        </Box>
+                    </ColumnsWrapper>
+                </Container>
+            </>
+        );
+    }
 
     return (
         <>

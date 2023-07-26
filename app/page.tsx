@@ -1,6 +1,5 @@
 import mongooseConnect from './_lib/mongoose';
 import { Product } from './_models/Product';
-import CartContextProvider from './components/CartContext';
 import Featured from './components/Featured';
 import Header from './components/Header';
 import NewProducts from './components/NewProducts';

@@ -2,30 +2,30 @@ import { NextResponse } from "next/server";
 import mongooseConnect from "@/app/_lib/mongoose";
 import { Product } from "@/app/_models/Product";
 import { Order } from "@/app/_models/Order";
+import { IProduct } from "@/app/page";
 
 const stripe = require('stripe')(process.env.STRIPE_SK)
 
 export async function POST(req: Request): Promise<NextResponse> {
     await mongooseConnect()
 
-    const body: InputData = await req.json()
-    const { name, email, city, postalCode, streetAddress, country, cartProducts } = body
+    const { name, email, city, postalCode, streetAddress, country, cartProducts }: InputData = await req.json()
 
-    const productsIds = cartProducts
-    const uniqueIds = [...new Set(productsIds)]
-    const productsInfos = await Product.find({ _id: uniqueIds })
+    const uniqueIds = [...new Set(cartProducts)]
+    const productsInfos: IProduct[] = await Product.find({ _id: uniqueIds })
 
     let line_items = []
     for (const productId of uniqueIds) {
-        const productInfo = productsInfos.find(p => p._id.toString() === productId)
-        const quantity = productsIds.filter(id => id === productId)?.length || 0
+        const productInfo: IProduct | undefined = productsInfos.find(p => p._id.toString() === productId)
+
+        const quantity = cartProducts.filter((id: string) => id === productId)?.length || 0
         if (quantity > 0 && productInfo) {
             line_items.push({
                 quantity,
                 price_data: {
                     currency: 'USD',
                     product_data: { name: productInfo.title },
-                    unit_amount: quantity * productInfo.price * 100,
+                    unit_amount: productInfo.price * 100,
                 }
             })
         }
@@ -56,5 +56,5 @@ interface InputData {
     postalCode: string
     streetAddress: string
     country: string
-    products: string
+    cartProducts: string[]
 }
