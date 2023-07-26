@@ -23,8 +23,6 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         if (cartProducts.length > 0) {
             ls?.setItem('cart', JSON.stringify(cartProducts));
-        } else {
-            ls?.removeItem('cart');
         }
     }, [cartProducts, ls]);
 
@@ -32,7 +30,7 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
         if (ls && ls.getItem('cart')) {
             setCartProducts(JSON.parse(ls.getItem('cart') || ''));
         }
-    }, []);
+    }, [ls]);
 
     const addProduct = (productId: string) => {
         setCartProducts((prev) => [...prev, productId]);
@@ -41,8 +39,10 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
     const removeProduct = (productId: string) => {
         setCartProducts((prev) => {
             const pos = prev.indexOf(productId);
-            console.log(pos);
             if (pos !== -1) {
+                if (prev.length === 1) {
+                    ls?.clear();
+                }
                 return prev.filter((value, index) => index !== pos);
             }
             return prev;

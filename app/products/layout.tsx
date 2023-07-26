@@ -5,7 +5,7 @@ import Products from './page';
 import { IProduct } from '../page';
 
 const ProductsLayout = async () => {
-    const products: IProduct[] = await getProduct();
+    const products: IProduct[] = JSON.parse(JSON.stringify(await getProduct()));
 
     return (
         <>

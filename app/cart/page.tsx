@@ -12,12 +12,6 @@ import Image from 'next/image';
 import Input from '../components/Input';
 import { Spinner } from '../components/Spinner';
 
-const SpinnerWrapper = styled.div`
-    display: grid;
-    place-items: center;
-    height: 80vh;
-`;
-
 const ColumnsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
@@ -163,11 +157,7 @@ const CartPage = () => {
     return (
         <>
             <Header />
-            {!isFetch && (
-                <SpinnerWrapper>
-                    <Spinner />
-                </SpinnerWrapper>
-            )}
+            {!isFetch && <Spinner />}
             {isFetch && (
                 <Container>
                     <ColumnsWrapper>
