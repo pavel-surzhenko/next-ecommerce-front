@@ -94,6 +94,7 @@ const CartPage = () => {
             });
         } else {
             setProducts([]);
+            setIsFetch(true);
         }
     }, [cartProducts]);
 

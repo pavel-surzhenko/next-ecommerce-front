@@ -23,8 +23,10 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         if (cartProducts.length > 0) {
             ls?.setItem('cart', JSON.stringify(cartProducts));
+        } else {
+            ls?.removeItem('cart');
         }
-    }, [cartProducts]);
+    }, [cartProducts, ls]);
 
     useEffect(() => {
         if (ls && ls.getItem('cart')) {
@@ -39,6 +41,7 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
     const removeProduct = (productId: string) => {
         setCartProducts((prev) => {
             const pos = prev.indexOf(productId);
+            console.log(pos);
             if (pos !== -1) {
                 return prev.filter((value, index) => index !== pos);
             }
