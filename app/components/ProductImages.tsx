@@ -11,7 +11,7 @@ const ImageButtons = styled.div`
 `;
 
 const ImageButton = styled.div<ImageButtonProps>`
-    border: 2px solid ${(props) => (props.active ? '#ccc' : 'transparent')};
+    border: 2px solid ${(props) => (props.$active ? '#ccc' : 'transparent')};
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
@@ -23,6 +23,7 @@ export const ProductImages = (productInfo: IProduct) => {
     return (
         <>
             <Image
+                priority
                 src={activeImg}
                 width={1000}
                 height={1000}
@@ -38,7 +39,7 @@ export const ProductImages = (productInfo: IProduct) => {
                     <ImageButton
                         key={image}
                         onClick={() => setActiveImg(image)}
-                        active={image === activeImg}
+                        $active={image === activeImg}
                     >
                         <Image
                             src={image}
@@ -59,5 +60,5 @@ export const ProductImages = (productInfo: IProduct) => {
 };
 
 interface ImageButtonProps extends HTMLAttributes<HTMLDivElement> {
-    active?: boolean;
+    $active?: boolean;
 }
