@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { IProduct } from '../page';
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 
 const ImageButtons = styled.div`
     display: grid;
@@ -10,8 +10,8 @@ const ImageButtons = styled.div`
     margin-top: 10px;
 `;
 
-const ImageButton = styled.div`
-    border: 2px solid #ccc;
+const ImageButton = styled.div<ImageButtonProps>`
+    border: 2px solid ${(props) => (props.active ? '#ccc' : 'transparent')};
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
@@ -38,6 +38,7 @@ export const ProductImages = (productInfo: IProduct) => {
                     <ImageButton
                         key={image}
                         onClick={() => setActiveImg(image)}
+                        active={image === activeImg}
                     >
                         <Image
                             src={image}
@@ -56,3 +57,7 @@ export const ProductImages = (productInfo: IProduct) => {
         </>
     );
 };
+
+interface ImageButtonProps extends HTMLAttributes<HTMLDivElement> {
+    active?: boolean;
+}
