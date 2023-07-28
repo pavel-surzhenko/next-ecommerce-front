@@ -4,10 +4,12 @@ import { styled } from 'styled-components';
 import { HTMLAttributes, useState } from 'react';
 
 const ImageButtons = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
     gap: 5px;
     margin-top: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 `;
 
 const ImageButton = styled.div<ImageButtonProps>`
@@ -15,6 +17,7 @@ const ImageButton = styled.div<ImageButtonProps>`
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
+    opacity: ${(props) => (props.$active ? 1 : 0.7)};
 `;
 
 export const ProductImages = (productInfo: IProduct) => {
