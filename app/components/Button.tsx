@@ -77,6 +77,12 @@ export const ButtonStyle = css<PrimaryBtnProps>`
                 height: 20px;
             }
         `}
+        ${(props) =>
+        props.disabled &&
+        css`
+            cursor: not-allowed;
+            opacity: 0.5;
+        `}
 `;
 
 const StyledButton = styled.button<PrimaryBtnProps>`
@@ -96,6 +102,7 @@ const Button: React.FC<PrimaryBtnProps> = (props) => {
                 white={props.white}
                 outline={props.outline}
                 type={props.type}
+                disabled={props.disabled}
             >
                 {props.children}
             </StyledButton>
@@ -115,4 +122,5 @@ export interface PrimaryBtnProps {
     block?: string;
     black?: string;
     type?: string;
+    disabled?: boolean;
 }

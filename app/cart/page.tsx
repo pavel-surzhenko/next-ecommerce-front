@@ -135,6 +135,17 @@ const CartPage = () => {
             window.location = response.data.url;
         }
     };
+    const isInputFill = () => {
+        return (
+            !!name &&
+            !!email &&
+            !!city &&
+            !!postalCode &&
+            !!streetAddress &&
+            !!country
+        );
+    };
+    console.log(isInputFill());
 
     if (isSuccess) {
         return (
@@ -311,6 +322,7 @@ const CartPage = () => {
                                     block='true'
                                     black='true'
                                     onClick={goToPayment}
+                                    disabled={!isInputFill()}
                                 >
                                     Continue to payment
                                 </Button>
