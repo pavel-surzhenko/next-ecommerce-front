@@ -21,6 +21,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 20px 0;
+    align-items: center;
 `;
 
 const NavLink = styled(Link)`
@@ -43,6 +44,7 @@ const StyledNav = styled.nav<StyledNavProps>`
     padding: 70px 20px 20px;
     background-color: #222;
     gap: 15px;
+    overscroll-behavior: none;
 
     @media screen and (min-width: 768px) {
         display: flex;
@@ -54,8 +56,8 @@ const StyledNav = styled.nav<StyledNavProps>`
 const NavButton = styled.button`
     background-color: transparent;
     border: 0;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     color: #fff;
     cursor: pointer;
     position: relative;
@@ -72,8 +74,14 @@ const Header = () => {
     useEffect(() => {
         if (navActive) {
             document.body.style.overflow = 'hidden';
+            document.body.style.height = '100%';
+            document.body.style.width = '100%';
+            document.body.style.position = 'fixed';
         } else {
             document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            document.body.style.width = 'auto';
+            document.body.style.position = 'static';
         }
     }, [navActive]);
 

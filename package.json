@@ -1,31 +1,31 @@
 {
-  "name": "e-commerce-front",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@next/eslint-plugin-next": "^13.4.12",
-    "@types/node": "20.3.2",
-    "@types/react": "18.2.14",
-    "@types/react-dom": "18.2.6",
-    "@types/styled-components": "^5.1.26",
-    "axios": "^1.4.0",
-    "eslint": "8.43.0",
-    "eslint-config-next": "13.4.7",
-    "micro": "^10.0.1",
-    "mongoose": "^7.3.1",
-    "next": "13.4.7",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-helmet": "^6.1.0",
-    "react-spinners": "^0.13.8",
-    "stripe": "^12.14.0",
-    "styled-components": "^6.0.1",
-    "typescript": "5.1.5"
-  }
+    "name": "e-commerce-front",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@next/eslint-plugin-next": "^13.4.12",
+        "@types/node": "20.3.2",
+        "@types/react": "18.2.14",
+        "@types/react-dom": "18.2.6",
+        "@types/styled-components": "^5.1.26",
+        "axios": "^1.4.0",
+        "eslint": "8.43.0",
+        "eslint-config-next": "13.4.7",
+        "micro": "^10.0.1",
+        "mongoose": "^7.3.1",
+        "next": "13.4.7",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-helmet": "^6.1.0",
+        "react-spinners": "^0.13.8",
+        "stripe": "^12.14.0",
+        "styled-components": "^6.0.1",
+        "typescript": "5.1.5"
+    }
 }
