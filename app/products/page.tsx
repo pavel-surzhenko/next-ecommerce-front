@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import { IProduct } from '../page';
 import ProductPage from './product-page';
 
+export const revalidate = 2;
+
 const getProduct = async () => {
     await mongooseConnect();
     const products: IProduct[] = await Product.find({}, null, {
