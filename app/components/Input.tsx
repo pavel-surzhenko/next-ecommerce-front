@@ -8,6 +8,7 @@ const StyledInput = styled.input`
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    font-size: 1rem;
 `;
 
 const Input: React.FC<InputHTMLAttributes<HTMLInputElement>> = (props) => {

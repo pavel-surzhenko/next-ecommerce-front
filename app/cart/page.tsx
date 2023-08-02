@@ -14,17 +14,27 @@ import { Spinner } from '../components/Spinner';
 
 const ColumnsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1fr;
     gap: 40px;
-    margin-top: 40px;
+    margin: 40px 0;
+    @media screen and (min-width: 768px) {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
 `;
 const Box = styled.div`
     background-color: #fff;
     border-radius: 10px;
-    padding: 30px;
+    padding: 15px;
+    @media screen and (min-width: 768px) {
+        padding: 30px;
+    }
 `;
 const ProductInfoCell = styled.td`
     padding: 10px 0;
+    max-width: 70px;
+    @media screen and (min-width: 768px) {
+        max-width: 100px;
+    }
 `;
 const ProductImageBox = styled.div`
     width: 70px;
@@ -51,22 +61,32 @@ const ProductImageBox = styled.div`
 `;
 
 const QuantityLabel = styled.span`
-    padding: 0 3px;
-    /* display: inline-block;
-    width: 20px;
-    text-align: center; */
+    padding: 0 10px;
+    display: block;
+    @media screen and (min-width: 768px) {
+        display: inline-block;
+        padding: 0 10px;
+    }
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
 `;
 
 const PriceLabel = styled.span`
-    /* padding: 0 3px;
-    min-width: 80px;
-    display: inline-block; */
+    padding: 0 3px;
+    min-width: 55px;
+    display: inline-block;
 `;
 
 const CityHolder = styled.div`
     display: flex;
     gap: 5px;
 `;
+
+const TotalLabel = styled.span`
+    font-weight: 600;
+`;
+
 const CartPage = () => {
     const { cartProducts, addProduct, removeProduct, clearCart } =
         useContext(CartContext);
@@ -145,7 +165,6 @@ const CartPage = () => {
             !!country
         );
     };
-    console.log(isInputFill());
 
     if (isSuccess) {
         return (
@@ -205,6 +224,7 @@ const CartPage = () => {
                                                 </ProductInfoCell>
                                                 <td>
                                                     <Button
+                                                        black='true'
                                                         onClick={() =>
                                                             lessOfThisProduct(
                                                                 product._id
@@ -223,6 +243,7 @@ const CartPage = () => {
                                                         }
                                                     </QuantityLabel>
                                                     <Button
+                                                        black='true'
                                                         onClick={() =>
                                                             moreOfThisProduct(
                                                                 product._id
@@ -248,7 +269,11 @@ const CartPage = () => {
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <td>${total}</td>
+                                            <td>
+                                                <TotalLabel>
+                                                    ${total}
+                                                </TotalLabel>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </Table>

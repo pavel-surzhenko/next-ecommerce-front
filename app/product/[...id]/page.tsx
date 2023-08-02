@@ -91,7 +91,6 @@ const ProductPage = ({ params }: { params: { id: string[] } }) => {
                             <div>
                                 <Button
                                     primary='true'
-                                    size='l'
                                     onClick={() =>
                                         addProduct(productInfo?._id!)
                                     }
