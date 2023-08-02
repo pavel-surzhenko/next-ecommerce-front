@@ -124,6 +124,7 @@ const CartPage = () => {
             setIsSuccess(true);
             clearCart();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const moreOfThisProduct = (id: string) => {
