@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { IProduct } from '../page';
 import ProductPage from './product-page';
 
-export const revalidate = 2;
+export const revalidate = 60;
 
 const getProduct = async () => {
     await mongooseConnect();
