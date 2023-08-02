@@ -7,7 +7,10 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { CartContext } from './CartContext';
 
-const ProductWrapper = styled.div``;
+const ProductWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
 const WhiteBox = styled(Link)`
     background-color: #fff;
@@ -47,6 +50,10 @@ const Price = styled.div`
 
 const ProductInfoBox = styled.div`
     padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
 `;
 
 const ProductBox = ({ _id, title, description, price, images }: IProduct) => {

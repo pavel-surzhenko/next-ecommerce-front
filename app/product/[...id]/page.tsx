@@ -6,32 +6,55 @@ import { ProductImages } from '@/app/components/ProductImages';
 import { Spinner } from '@/app/components/Spinner';
 import { Title } from '@/app/components/Title';
 import { WhiteBox } from '@/app/components/WhiteBox';
+import ArrowIcon from '@/app/components/icons/ArrowIcon';
 import CartIcon from '@/app/components/icons/CartIcon';
 import { IProduct } from '@/app/page';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 const ColWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 40px;
-    margin-top: 40px;
+    margin: 20px 0;
+    @media screen and (min-width: 768px) {
+        flex-direction: row;
+        align-items: start;
+        margin: 40px 0;
+    }
 `;
 
 const PriceRow = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
 `;
 
 const Price = styled.span`
     font-size: 1.4rem;
 `;
+
+const BackButton = styled.div`
+    align-self: start;
+    margin-bottom: -40px;
+    svg {
+        margin-right: 0px;
+    }
+    @media screen and (min-width: 768px) {
+        display: none;
+    }
+`;
+
 const ProductPage = ({ params }: { params: { id: string[] } }) => {
     const id = params.id.join('');
     const [productInfo, setProductInfo] = useState<IProduct>();
     const [isFetch, setIsFetch] = useState<boolean>(false);
     const { addProduct } = useContext(CartContext);
+    const router = useRouter();
 
     useEffect(() => {
         axios.get('/api/products?id=' + id).then((response) => {
@@ -46,6 +69,15 @@ const ProductPage = ({ params }: { params: { id: string[] } }) => {
                 <Spinner />
             ) : (
                 <ColWrapper>
+                    <BackButton>
+                        <Button
+                            outline='true'
+                            black='true'
+                            onClick={() => router.push('/products')}
+                        >
+                            <ArrowIcon />
+                        </Button>
+                    </BackButton>
                     <WhiteBox>
                         <ProductImages {...productInfo!} />
                     </WhiteBox>
@@ -59,6 +91,7 @@ const ProductPage = ({ params }: { params: { id: string[] } }) => {
                             <div>
                                 <Button
                                     primary='true'
+                                    size='l'
                                     onClick={() =>
                                         addProduct(productInfo?._id!)
                                     }
